@@ -5,7 +5,7 @@
  */
 namespace iboxs\redis;
 
-class Client
+class Client extends Base
 {
 
 }
