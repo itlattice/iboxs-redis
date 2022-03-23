@@ -1,0 +1,21 @@
+{
+    "name": "iboxs/redis",
+    "description": "Redis convenient operation package",
+    "type": "1",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "zqu",
+            "email": "zqu1016@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "iboxs\\redis\\": "src/"
+        }
+    }
+}
