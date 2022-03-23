@@ -1,2 +1,6 @@
-<a href="alipay.php">测试支付宝支付</a><br/>
-<a href="wxpay.php">测试微信支付</a>
+<?php
+require_once '../vendor/autoload.php';
+use iboxs\redis\Client;
+
+$client=new Client();
+echo $client->basic()->ttl('s');
