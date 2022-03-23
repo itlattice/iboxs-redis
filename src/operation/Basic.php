@@ -50,6 +50,54 @@ class Basic extends BaseOperation
         $this->handler->set($key,$value,20);
         return $this->handler->expireAt($key,$expire);
     }
+
+    /**
+     * 批量写入
+     */
+    public function mset($array){
+
+    }
+
+    /**
+     * 若不存在时写入
+     */
+    public function setnx($key,$value){
+        return $this->handler->setnx($key,$value);
+    }
+
+    /**
+     * 读取缓存
+     */
+    public function get($key,$default=null){
+
+    }
+
+    /**
+     * 批量读取缓存
+     */
+    public function mget($key_arr){
+
+    }
+
+    /**
+     * 删除键值
+     * @param array|string $key 键值（多个时以数组传入）
+     */
+    public function del($key){
+        return $this->handler->del($key);
+    }
+
+    /**
+     * 先获取值，再写入新值
+     */
+    public function getset($key,$value,$default=null){
+        $result=$this->handler->getset($key,$value);
+        if($result==false){
+            $this->handler->set($key,$value);
+            return $default;
+        }
+        return $result;
+    }
 }
 
 // $redis->mset(array('key0' => 'value0', 'key1' => 'value1'));//设置一个或多个键值[true]
