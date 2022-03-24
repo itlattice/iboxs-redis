@@ -9,6 +9,7 @@ class Basic extends BaseOperation
      * @return int 生存时间(单位秒),持久化的会返回-1，key不存在时返回-2
      */
     public function ttl($key){
+        $key=$this->operationKey($key);
         return $this->handler->ttl($key);
     }
 
@@ -19,6 +20,7 @@ class Basic extends BaseOperation
      * @param int $time_out 过期时间(秒)
      */
     public function set($key,$value,$time_out=0){
+        $key=$this->operationKey($key);
         if(is_array($value)||is_object($value)){
             $value=serialize($value);
         }
@@ -31,6 +33,7 @@ class Basic extends BaseOperation
      * @param int $time_out 过期时间(秒)
      */
     public function expire($key,$time_out){
+        $key=$this->operationKey($key);
         return $this->handler->expire($key,$time_out);
     }
 
@@ -41,6 +44,7 @@ class Basic extends BaseOperation
      * @param int $expire 过期时间(Unix时间戳)
      */
     public function time_set($key,$value,$expire){
+        $key=$this->operationKey($key);
         if(is_array($value)||is_object($value)){
             $value=serialize($value);
         }
@@ -52,31 +56,61 @@ class Basic extends BaseOperation
     }
 
     /**
-     * 批量写入
+     * 批量写入Redis
+     * @param array $array 写入的数据字典
+     * @return bool 成功返回true
      */
-    public function mset($array){
-
+    public function mset(array $array){
+        $arr=[];
+        foreach ($array as $key=>$value) {
+            $key=$this->operationKey($key);
+            if(is_array($value)||is_object($value)){
+                $arr[$key]=serialize($value);
+            } else{
+                $arr[$key]=$value;
+            }
+        }
+        return $this->handler->mset($arr);
     }
 
     /**
      * 若不存在时写入
      */
     public function setnx($key,$value){
+        $key=$this->operationKey($key);
         return $this->handler->setnx($key,$value);
     }
 
     /**
-     * 读取缓存
+     * 读取Redis
+     * @param string $key 键
+     * @param mixed|null $default 默认值（无此键值返回的值）
+     * @return mixed|null 获取到的值
      */
-    public function get($key,$default=null){
-
+    public function get(string $key,mixed $default=null){
+        $key=$this->operationKey($key);
+        $value=$this->handler->get($key);
+        var_dump($value);
+        if($value===false){  //不存在
+            return $default;
+        }
+        if($this->is_serialized($value)){
+            $value=unserialize($value);
+        }
+        return $value;
     }
 
     /**
-     * 批量读取缓存
+     * 批量获取Redis存储的值
+     * @param string|array $key_arr 键或键的数组
+     * @return array 所有被查询的值数组
      */
     public function mget($key_arr){
-
+        $key=[];
+        foreach ($key_arr as $item) {
+            $key[]=$this->operationKey($item);
+        }
+        return $this->handler->mGet($key);
     }
 
     /**
@@ -84,6 +118,7 @@ class Basic extends BaseOperation
      * @param array|string $key 键值（多个时以数组传入）
      */
     public function del($key){
+        $key=$this->operationKey($key);
         return $this->handler->del($key);
     }
 
@@ -91,6 +126,7 @@ class Basic extends BaseOperation
      * 先获取值，再写入新值
      */
     public function getset($key,$value,$default=null){
+        $key=$this->operationKey($key);
         $result=$this->handler->getset($key,$value);
         if($result==false){
             $this->handler->set($key,$value);
@@ -98,34 +134,56 @@ class Basic extends BaseOperation
         }
         return $result;
     }
+
+    /**
+     * 获取键的长度
+     * @param string $key 键
+     * @return int 键的长度
+     */
+    public function strlen(string $key){
+        $key=$this->operationKey($key);
+        return $this->handler->strlen($key);
+    }
+
+    /**
+     * 把string追加到key现有的value中
+     * @param string $key 键
+     * @param string $string 追加的字符串
+     * @return int 追加后的个数
+     */
+    public function append(string $key,string $string){
+        $key=$this->operationKey($key);
+        return $this->handler->append($key,$string);
+    }
+
+    /**
+     * 自增,不存在为赋值,值需为整数
+     * @param string $key 键
+     * @param int $step 步长，不存在时赋值该值
+     * @return int 结果
+     */
+    public function inc(string $key,int $step=1){
+        $key=$this->operationKey($key);
+        return $this->handler->incrBy($key,$step);
+    }
+
+    /**
+     * 自减
+     * @param string $key 键
+     * @param int $step 步长
+     * @return int
+     */
+    public function dec(string $key,int $step=1){
+        $key=$this->operationKey($key);
+        return $this->handler->decrBy($key,$step);
+    }
+
+    /**
+     * 检索键名（*为遍历所有键名）
+     * @param string $key 查询的键(本操作前缀无效)
+     * @return array 遍历结果
+     */
+    public function key(string $key='*'){
+        return $this->handler->keys($key);
+    }
 }
-
-// $redis->mset(array('key0' => 'value0', 'key1' => 'value1'));//设置一个或多个键值[true]
-
-// $redis->setnx('key','value');//key=value,key存在返回false[|true]
-
-// $redis->get('key');//获取key [value]
-
-// $redis->mget($arr);//(string|arr),返回所查询键的值
-
-// $redis->del($key_arr);//(string|arr)删除key，支持数组批量删除【返回删除个数】
-
-// $redis->delete($key_str,$key2,$key3);//删除keys,[del_num]
-
-// $redis->getset('old_key','new_value');//先获得key的值，然后重新赋值,[old_value | false]
-
-// $redis->strlen('key');//获取当前key的长度
-
-// $redis->append('key','string');//把string追加到key现有的value中[追加后的个数]
-
-// $redis->incr('key');//自增1，如不存在key,赋值为1(只对整数有效,存储以10进制64位，redis中为str)[new_num | false]
-
-// $redis->incrby('key',$num);//自增$num,不存在为赋值,值需为整数[new_num | false]
-
-// $redis->decr('key');//自减1，[new_num | false]
-
-// $redis->decrby('key',$num);//自减$num，[ new_num | false]
-
-// $redis->setex('key',10,'value');//key=value，有效期为10秒[true]
-
-// $redis->keys('*'); //遍历所有的键名

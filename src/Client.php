@@ -5,50 +5,56 @@
  */
 namespace iboxs\redis;
 
-use iboxs\redis\common\Base;
 use iboxs\redis\operation\{Basic,ListHandle,sysMatic,DatabaseSet,DatabaseZset,Hash};
+use iboxs\redis\common\BaseCommon;
 
-class Client extends Base
+class Client extends BaseCommon
 {
     /**
      * 基础操作
      */
-    public function basic(){
-        return (new Basic($this->handler));
+    public function basic(): Basic
+    {
+        return (new Basic());
     }
 
     /**
      * redis软件系统操作
      */
-    public function sysmatic(){
-        return (new sysMatic($this->handler));
+    public function sysmatic(): sysMatic
+    {
+        return (new sysMatic());
     }
 
     /**
      * 列表操作
      */
-    public function list(){
+    public function list(): ListHandle
+    {
         return (new ListHandle($this->handler));
     }
 
     /**
      * 数据集合操作
      */
-    public function Set(){
+    public function Set(): DatabaseSet
+    {
         return (new DatabaseSet($this->handler));
     }
 
     /**
      * 有序集合操作
      */
-    public function Zset(){
+    public function Zset(): DatabaseZset
+    {
         return (new DatabaseZset($this->handler));
     }
 
     /**
      * Hash表操作
      */
-    public function hash(){
+    public function hash(): Hash
+    {
         return (new Hash($this->handler));
     }
 }

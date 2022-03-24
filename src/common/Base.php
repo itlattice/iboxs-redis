@@ -1,4 +1,5 @@
 <?php
+
 namespace iboxs\redis\common;
 
 use Redis;
@@ -12,22 +13,25 @@ class Base
         'port'=>6379, //Port
         'password'=>'',
         'expire'=>0,  //Expiration time
-        'time_out'=>0
+        'time_out'=>0,
+        'prefix'=>'' //前缀（仅对基础操作有效）
     ];
 
-    public $handler;
-
-    public function __construct($config=[])
-    {
-        $this->config['host']=$config['host']??$this->config['host'];
-        $this->config['port']=$config['port']??$this->config['port'];
-        $this->config['prefix']=$config['prefix']??$this->config['prefix'];
-        $this->config['expire']=$config['expire']??$this->config['expire'];
-        if(!class_exists('Redis')){
-            exit('No Redis EXT');
+    /**
+     * 键的处理
+     * @param string $key 键
+     * @param string $prefix 前缀
+     * @return string 新键
+     */
+    public function operationKey($key,$prefix=''){
+        if($prefix==''){
+            $prefix=$this->config['prefix']??'';
         }
-        $this->handler=new Redis();
-        $this->handler->connect('127.0.0.1', 6379,$this->config['time_out']);
-        $this->handler->auth($this->config['password']);
+        return $prefix.$key;
     }
+
+    /**
+     * @var \Redis
+     */
+    public $handler;
 }

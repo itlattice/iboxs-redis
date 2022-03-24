@@ -1,18 +1,13 @@
 <?php
 namespace iboxs\redis\operation;
 
+use iboxs\redis\common\Base;
+use iboxs\redis\common\Helper;
+
 /**
  * 操作基类
  */
-class BaseOperation
+class BaseOperation extends Base
 {
-    /**
-     * @var \Redis
-     */
-    protected $handler;
 
-    public function __construct($handler)
-    {
-        $this->handler=$handler;
-    }
 }
