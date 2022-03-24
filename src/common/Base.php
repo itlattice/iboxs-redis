@@ -14,7 +14,7 @@ class Base
         'password'=>'',
         'expire'=>0,  //Expiration time
         'time_out'=>0,
-        'prefix'=>'' //前缀（仅对基础操作有效）
+        'prefix'=>'' //前缀
     ];
 
     /**
