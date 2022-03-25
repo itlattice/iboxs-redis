@@ -186,4 +186,14 @@ class Basic extends BaseOperation
     public function key(string $key='*'){
         return $this->handler->keys($key);
     }
+
+    /**
+     * 移除键的失效时间
+     * @param string $key
+     * @return bool|int
+     */
+    public function persist(string $key){
+        $key=$this->operationKey($key);
+        return $this->handler->persist($key);
+    }
 }

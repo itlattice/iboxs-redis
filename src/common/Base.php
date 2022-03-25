@@ -14,7 +14,8 @@ class Base
         'password'=>'',
         'expire'=>0,  //Expiration time
         'time_out'=>0,
-        'prefix'=>'' //前缀
+        'prefix'=>'', //前缀
+        'select'=>0  //选择的库(一般有16个库)
     ];
 
     /**
@@ -35,6 +36,10 @@ class Base
      */
     public $handler;
 
+    /**
+     * @param $select
+     * @param $config
+     */
     public function __construct($config=[])
     {
         $this->config['host']=$config['host']??$this->config['host'];
@@ -47,5 +52,6 @@ class Base
         $this->handler=new \Redis();
         $this->handler->connect('127.0.0.1', 6379,$this->config['time_out']);
         $this->handler->auth($this->config['password']);
+        $this->handler->select($this->config['select']);
     }
 }
