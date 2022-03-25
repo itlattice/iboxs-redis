@@ -31,7 +31,7 @@ class Client extends BaseCommon
      */
     public function list(): ListHandle
     {
-        return (new ListHandle($this->handler));
+        return (new ListHandle());
     }
 
     /**
@@ -39,7 +39,7 @@ class Client extends BaseCommon
      */
     public function Set(): DatabaseSet
     {
-        return (new DatabaseSet($this->handler));
+        return (new DatabaseSet());
     }
 
     /**
@@ -47,7 +47,7 @@ class Client extends BaseCommon
      */
     public function Zset(): DatabaseZset
     {
-        return (new DatabaseZset($this->handler));
+        return (new DatabaseZset());
     }
 
     /**
@@ -55,6 +55,6 @@ class Client extends BaseCommon
      */
     public function hash(): Hash
     {
-        return (new Hash($this->handler));
+        return (new Hash());
     }
 }
