@@ -43,7 +43,7 @@ class Client extends BaseCommon
     }
 
     /**
-     * 有序集合操作
+     * 有序集合操作（暂不支持，若有需要可自行开发）
      */
     public function Zset(): DatabaseZset
     {
