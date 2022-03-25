@@ -16,7 +16,7 @@ class Redis
     /**
      * redis软件系统操作
      */
-    public function sysmatic()
+    public static function sysmatic()
     {
         $config=config('redis');
         $client=new Client($config);
@@ -26,7 +26,7 @@ class Redis
     /**
      * 列表操作
      */
-    public function list(): ListHandle
+    public static function list(): ListHandle
     {
         $config=config('redis');
         $client=new Client($config);
@@ -36,7 +36,7 @@ class Redis
     /**
      * 数据集合操作
      */
-    public function Set(): DatabaseSet
+    public static function Set(): DatabaseSet
     {
         $config=config('redis');
         $client=new Client($config);
@@ -46,7 +46,7 @@ class Redis
     /**
      * 有序集合操作
      */
-    public function Zset(): DatabaseZset
+    public static function Zset(): DatabaseZset
     {
         $config=config('redis');
         $client=new Client($config);
@@ -56,7 +56,7 @@ class Redis
     /**
      * Hash表操作
      */
-    public function hash(): Hash
+    public static function hash(): Hash
     {
         $config=config('redis');
         $client=new Client($config);
