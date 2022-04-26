@@ -90,7 +90,6 @@ class Basic extends BaseOperation
     public function get(string $key,mixed $default=null){
         $key=$this->operationKey($key);
         $value=$this->handler->get($key);
-        var_dump($value);
         if($value===false){  //不存在
             return $default;
         }
