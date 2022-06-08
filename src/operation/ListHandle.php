@@ -31,7 +31,7 @@ class ListHandle extends BaseOperation
      */
     public function rPush(string $key, $value, bool $is_new=true){
         $key=$this->operationKey($key);
-        if(is_array($key)||is_object($value)){
+        if(is_array($value)||is_object($value)){
             $value=serialize($value);
         }
         if($is_new) {
@@ -61,7 +61,7 @@ class ListHandle extends BaseOperation
      */
     public function lPop(string $key){
         $key=$this->operationKey($key);
-        $value=$this->lPop($key);
+        $value=$this->handler->lPop($key);
         if($this->is_serialized($value)){
             return unserialize($value);
         }
