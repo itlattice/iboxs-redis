@@ -2,13 +2,18 @@
 
 namespace iboxs\redis;
 
+use iboxs\redis\common\Base;
 use iboxs\redis\operation\{Basic,ListHandle,sysMatic,Hash,DatabaseZset,DatabaseSet};
 
-class Redis
+class Redis extends Base
 {
     public static function basic(): Basic
     {
-        $config=config('redis');
+        if(function_exists('config')){
+            $config=config('redis');
+        } else{
+            $config=(new self())->config;
+        }
         $client=new Client($config);
         return $client->basic();
     }
@@ -18,7 +23,11 @@ class Redis
      */
     public static function sysmatic()
     {
-        $config=config('redis');
+        if(function_exists('config')){
+            $config=config('redis');
+        } else{
+            $config=(new self())->config;
+        }
         $client=new Client($config);
         return $client->sysmatic();
     }
@@ -28,7 +37,11 @@ class Redis
      */
     public static function list(): ListHandle
     {
-        $config=config('redis');
+        if(function_exists('config')){
+            $config=config('redis');
+        } else{
+            $config=(new self())->config;
+        }
         $client=new Client($config);
         return $client->list();
     }
@@ -38,7 +51,11 @@ class Redis
      */
     public static function Set(): DatabaseSet
     {
-        $config=config('redis');
+        if(function_exists('config')){
+            $config=config('redis');
+        } else{
+            $config=(new self())->config;
+        }
         $client=new Client($config);
         return $client->Set();
     }
@@ -48,7 +65,11 @@ class Redis
      */
     public static function Zset(): DatabaseZset
     {
-        $config=config('redis');
+        if(function_exists('config')){
+            $config=config('redis');
+        } else{
+            $config=(new self())->config;
+        }
         $client=new Client($config);
         return $client->Zset();
     }
@@ -58,7 +79,11 @@ class Redis
      */
     public static function hash(): Hash
     {
-        $config=config('redis');
+        if(function_exists('config')){
+            $config=config('redis');
+        } else{
+            $config=(new self())->config;
+        }
         $client=new Client($config);
         return $client->hash();
     }
