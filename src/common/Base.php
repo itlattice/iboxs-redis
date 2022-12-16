@@ -51,7 +51,9 @@ class Base
         }
         $this->handler=new \Redis();
         $this->handler->connect('127.0.0.1', 6379,$this->config['time_out']);
-        $this->handler->auth($this->config['password']);
+        if($this->config['password']!=''){
+            $this->handler->auth($this->config['password']);
+        }
         $this->handler->select($this->config['select']);
     }
 }
