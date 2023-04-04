@@ -87,4 +87,25 @@ class Redis extends Base
         $client=new Client($config);
         return $client->hash();
     }
+
+    /**
+     * 快速获取键值
+     * @param $key
+     * @param $default
+     */
+    public static function get($key,$default=null)
+    {
+        return self::basic()->get($key,$default);
+    }
+
+    /**
+     * 快速写入键值
+     * @param $key
+     * @param $value
+     * @param $extire
+     */
+    public static function write($key,$value,$time_out=0)
+    {
+        return self::basic()->set($key,$value,$time_out);
+    }
 }
