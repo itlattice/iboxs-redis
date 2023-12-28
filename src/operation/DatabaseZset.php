@@ -71,12 +71,13 @@ class DatabaseZset extends BaseOperation
      * @param string $key
      * @param int $start
      * @param int $end
+     * @param bool $withScore
      * @return array
      */
-    public function revRange(string $key, int $start, int $end)
+    public function revRange(string $key, int $start, int $end,$withScore=true)
     {
         $key = $this->operationKey($key);
-        return $this->handler->zRevRange($key, $start, $end);
+        return $this->handler->zRevRange($key, $start, $end,$withScore);
     }
 
     /**
@@ -90,6 +91,22 @@ class DatabaseZset extends BaseOperation
     {
         $key = $this->operationKey($key);
         return $this->handler->zRangeByScore($key, $start, $end);
+    }
+
+    /**
+     * 求并集
+     * @param $key
+     * @param array $keys
+     * @return int|false
+     */
+    public function ZUnionStore($key,array $keys)
+    {
+        $key = $this->operationKey($key);
+        $resultKeys=[];
+        foreach($keys as $k){
+            $resultKeys[]=$this->operationKey($k);
+        }
+        return $this->handler->zUnionStore($key, $resultKeys);
     }
 
     /**
@@ -172,5 +189,16 @@ class DatabaseZset extends BaseOperation
     {
         $key = $this->operationKey($key);
         return $this->handler->sort($key, $array);
+    }
+
+    /**
+     * 有序列表score自增
+     * @param string $key
+     * @param float $value
+     * @param string $member
+     */
+    public function inc(string $key, $value,$member){
+        $key = $this->operationKey($key);
+        $this->handler->zIncrBy($key, $value,$member);
     }
 }
