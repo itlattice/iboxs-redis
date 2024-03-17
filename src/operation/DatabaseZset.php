@@ -71,7 +71,6 @@ class DatabaseZset extends BaseOperation
      * @param string $key
      * @param int $start
      * @param int $end
-     * @param bool $withScore
      * @return array
      */
     public function revRange(string $key, int $start, int $end,$withScore=true)
@@ -94,10 +93,11 @@ class DatabaseZset extends BaseOperation
     }
 
     /**
-     * 求并集
+     * 返回有序集key中，指定区间内的(从大到小排)成员
      * @param $key
-     * @param array $keys
-     * @return int|false
+     * @param int $start
+     * @param int $end
+     * @return false|int|Redis
      */
     public function ZUnionStore($key,array $keys)
     {
@@ -185,17 +185,17 @@ class DatabaseZset extends BaseOperation
      * @param $array
      * @return array
      */
-    public function sort($key, $array)
+    public function sort($key, $array=null)
     {
         $key = $this->operationKey($key);
-        return $this->handler->sort($key, $array);
+        return $this->handler->sort($key, [
+            'limit' => array(0, 10),
+            'sort' => 'desc'
+        ]);
     }
 
     /**
      * 有序列表score自增
-     * @param string $key
-     * @param float $value
-     * @param string $member
      */
     public function inc(string $key, $value,$member){
         $key = $this->operationKey($key);
