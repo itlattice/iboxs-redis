@@ -10,11 +10,19 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "ext-redis":"*"
     },
     "autoload": {
         "psr-4": {
             "iboxs\\redis\\": "src/"
+        }
+    },
+    "extra": {
+        "iboxs": {
+            "config":{
+                "redis": "src/redis.php"
+            }
         }
     }
 }
