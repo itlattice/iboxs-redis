@@ -213,11 +213,6 @@ class Basic extends BaseOperation
         return $this->handler->persist($key);
     }
 
-    /**
-     * 判断键是否存在
-     * @param string $key
-     * @return bool|int
-     */
     public function exists($key){
         $key=$this->operationKey($key);
         return $this->handler->exists($key);
