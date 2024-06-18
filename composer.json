@@ -24,5 +24,10 @@
                 "redis": "src/redis.php"
             }
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "iboxs\\redis\\Client::install"
+        ]
     }
 }

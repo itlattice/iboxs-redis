@@ -57,4 +57,14 @@ class Client extends BaseCommon
     {
         return (new Hash());
     }
+
+    public static function install(){
+        if(function_exists('config_path')){
+            $path=config_path();
+            if(!file_exists($path.'/redis.php')){
+                copy(__DIR__.'/redis.php',$path.'/redis.php');
+            }
+        }
+        return true;
+    }
 }
