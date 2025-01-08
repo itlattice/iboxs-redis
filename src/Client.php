@@ -15,7 +15,7 @@ class Client extends BaseCommon
      */
     public function basic(): Basic
     {
-        return (new Basic());
+        return (new Basic($this->config));
     }
 
     /**
@@ -23,7 +23,7 @@ class Client extends BaseCommon
      */
     public function sysmatic(): sysMatic
     {
-        return (new sysMatic());
+        return (new sysMatic($this->config));
     }
 
     /**
@@ -31,7 +31,7 @@ class Client extends BaseCommon
      */
     public function list(): ListHandle
     {
-        return (new ListHandle());
+        return (new ListHandle($this->config));
     }
 
     /**
@@ -39,7 +39,7 @@ class Client extends BaseCommon
      */
     public function Set(): DatabaseSet
     {
-        return (new DatabaseSet());
+        return (new DatabaseSet($this->config));
     }
 
     /**
@@ -47,7 +47,7 @@ class Client extends BaseCommon
      */
     public function Zset(): DatabaseZset
     {
-        return (new DatabaseZset());
+        return (new DatabaseZset($this->config));
     }
 
     /**
@@ -55,7 +55,7 @@ class Client extends BaseCommon
      */
     public function hash(): Hash
     {
-        return (new Hash());
+        return (new Hash($this->config));
     }
 
     public static function install(){
